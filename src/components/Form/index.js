@@ -1,15 +1,34 @@
 import "./form.css";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import pic from "./registration.jpeg";
+import axios from "axios";
 
 export const Form = () => {
+  const [isSubmit, setIsSubmit] = useState("false");
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+
+  const [mail, setEmail] = useState("");
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
+  } = useForm({
+    defaultValues: {},
+    shouldUnregister: true,
+  });
+  const onSubmit = (data) => {
+    axios
+      .post("http://localhost:4000/app/register", data)
+      .then((response) => console.log(data, data.firstName));
+    setIsSubmit("true");
+    setFName(data.firstName);
+    setLName(data.lastName);
+    setEmail(data.email);
+  };
 
   const registerOptions = {
     firstName: { required: "First Name is required" },
@@ -17,56 +36,74 @@ export const Form = () => {
     email: { required: "Email is required" },
   };
 
-  console.log(watch("example"));
+  // console.log(watch("example"));
+  if (isSubmit == "false") {
+    return (
+      <div className="parentDiv">
+        <div className="left-div">
+          <h1>Registration</h1>
+          <p>Please enter your details</p>
 
-  return (
-    <div className="parentDiv">
-      <div className="left-div">
-        <h1>Registration</h1>
-        <p>Please enter your details</p>
+          <form onSubmit={handleSubmit(onSubmit)} className="form">
+            <div>
+              <label>First Name</label>
+              <br />
+              <input
+                type="text"
+                name="firstName"
+                {...register("firstName", registerOptions.firstName)}
+              />
+              <div className="error">
+                {errors?.firstName && errors.firstName.message}
+              </div>
+            </div>
+            <div>
+              <label>Last Name</label>
+              <br />
+              <input
+                type="text"
+                name="lastName"
+                {...register("lastName", registerOptions.lastName)}
+              />
+              <div className="error">
+                {errors?.lastName && errors.lastName.message}
+              </div>
+            </div>
+            <div>
+              <label>Email</label>
+              <br />
+              <input
+                type="email"
+                name="email"
+                {...register("email", registerOptions.email)}
+              />
+              <br />
+              <div className="error">
+                {errors?.email && errors.email.message}
+              </div>
+            </div>
+            <input type="submit" className="button" />
+          </form>
+        </div>
+        <div className="imgDiv">
+          <img src={pic} />
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="parentDiv">
+        <div className="left-div">
+          <h1>Successfully Registered</h1>
+          <p>{fName}</p>
+          <p>{lName}</p>
+          <p>{mail}</p>
+        </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="form">
-          <div>
-            <label>First Name</label>
-            <br />
-            <input
-              type="text"
-              name="firstName"
-              {...register("firstName", registerOptions.firstName)}
-            />
-            <div className="error">
-              {errors?.firstName && errors.firstName.message}
-            </div>
-          </div>
-          <div>
-            <label>Last Name</label>
-            <br />
-            <input
-              type="text"
-              name="lastName"
-              {...register("lastName", registerOptions.lastName)}
-            />
-            <div className="error">
-              {errors?.lastName && errors.lastName.message}
-            </div>
-          </div>
-          <div>
-            <label>Email</label>
-            <br />
-            <input
-              type="email"
-              name="email"
-              {...register("email", registerOptions.email)}
-            />
-            <br />
-            <div className="error">{errors?.email && errors.email.message}</div>
-          </div>
-          <input type="submit" className="button" />
-        </form>
+        <div className="imgDiv">
+          <img src={pic} />
+        </div>
       </div>
-      <div className="imgDiv">
-        <img src={pic} />
-      </div>
-    </div>
-  );
+    );
+  }
 };
