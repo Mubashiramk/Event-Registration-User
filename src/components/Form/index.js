@@ -22,7 +22,7 @@ export const Form = () => {
   });
   const onSubmit = (data) => {
     axios
-      .post("http:// 172.31.14.12/app/register", data)
+      .post("http:// 3.69.54.4/app/register", data)
       .then((response) => console.log(data, data.firstName));
     setIsSubmit("true");
     setFName(data.firstName);
