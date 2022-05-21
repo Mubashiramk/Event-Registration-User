@@ -1,7 +1,7 @@
 import "./form.css";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import pic from "./registration.jpeg";
+import Pic from "./registration.jpeg";
 import axios from "axios";
 
 export const Form = () => {
@@ -89,7 +89,7 @@ export const Form = () => {
           </form>
         </div>
         <div className="imgDiv">
-          <img src={pic} />
+          <img src={Pic} />
         </div>
       </div>
     );
@@ -104,7 +104,7 @@ export const Form = () => {
         </div>
 
         <div className="imgDiv">
-          <img src={pic} />
+          <img src={Pic} />
         </div>
       </div>
     );
