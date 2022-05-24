@@ -22,10 +22,7 @@ export const Form = () => {
   });
   const onSubmit = (data) => {
     axios
-      .post(
-        "http://ec2-3-73-79-235.eu-central-1.compute.amazonaws.com/app/register",
-        data
-      )
+      .post("http://localhost:4000/app/register", data)
       .then((response) => console.log(data, data.firstName));
     setIsSubmit("true");
     setFName(data.firstName);
