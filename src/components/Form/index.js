@@ -3,8 +3,22 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Pic from "./registration.jpeg";
 import axios from "axios";
+// //
+import { io } from "socket.io-client";
 
 export const Form = () => {
+  // const socket = io("http://localhost:4000");
+  // socket.emit("on", "hi");
+  // socket.on("hello", (arg) => {
+  //   alert(arg);
+  // });
+
+  // if (socket.connected) {
+  //   console.log("socket.io is connected.");
+  // } else {
+  //   console.log("socket.io not connected.");
+  // }
+
   const [isSubmit, setIsSubmit] = useState("false");
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
@@ -22,11 +36,12 @@ export const Form = () => {
   });
   const onSubmit = (data) => {
     axios
-      .post(
-        "http://ec2-3-73-79-235.eu-central-1.compute.amazonaws.com/app/register",
-        data
-      )
+      .post("http://localhost:4000/app/register", data)
       .then((response) => console.log(data, data.firstName));
+    //
+    const socket = io("http://localhost:4000");
+    socket.emit("on", "hi");
+    //
     setIsSubmit("true");
     setFName(data.firstName);
     setLName(data.lastName);
