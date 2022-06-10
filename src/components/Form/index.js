@@ -7,17 +7,8 @@ import axios from "axios";
 import { io } from "socket.io-client";
 
 export const Form = () => {
-  // const socket = io("http://localhost:4000");
-  // socket.emit("on", "hi");
-  // socket.on("hello", (arg) => {
-  //   alert(arg);
-  // });
-
-  // if (socket.connected) {
-  //   console.log("socket.io is connected.");
-  // } else {
-  //   console.log("socket.io not connected.");
-  // }
+  const socket = io("http://localhost:5000");
+  socket.emit("on", "user registered");
 
   const [isSubmit, setIsSubmit] = useState("false");
   const [fName, setFName] = useState("");
@@ -38,10 +29,7 @@ export const Form = () => {
     axios
       .post("http://localhost:4000/app/register", data)
       .then((response) => console.log(data, data.firstName));
-    //
-    const socket = io("http://localhost:4000");
-    socket.emit("on", "hi");
-    //
+
     setIsSubmit("true");
     setFName(data.firstName);
     setLName(data.lastName);
@@ -54,7 +42,6 @@ export const Form = () => {
     email: { required: "Email is required" },
   };
 
-  // console.log(watch("example"));
   if (isSubmit == "false") {
     return (
       <div className="parentDiv">
